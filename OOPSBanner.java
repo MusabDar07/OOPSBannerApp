@@ -1,9 +1,31 @@
 public class OOPSBanner {
 
-    // Function to get pattern for each character
-    static String[] getPattern(char c) {
+    // Class to store a character and its pattern
+    static class CharPattern {
+        char letter;
+        String[] pattern;
+
+        // Constructor
+        CharPattern(char letter, String[] pattern) {
+            this.letter = letter;
+            this.pattern = pattern;
+        }
+
+        // Method to get a specific row of the pattern
+        String getRow(int row) {
+            return pattern[row];
+        }
+
+        // Method to get the height of the pattern
+        int getHeight() {
+            return pattern.length;
+        }
+    }
+
+    // Function to get CharPattern for each character
+    static CharPattern getCharPattern(char c) {
         switch (c) {
-            case 'O': return new String[]{
+            case 'O': return new CharPattern('O', new String[]{
                 "  ***  ",
                 " *   * ",
                 "*     *",
@@ -11,8 +33,8 @@ public class OOPSBanner {
                 "*     *",
                 " *   * ",
                 "  ***  "
-            };
-            case 'P': return new String[]{
+            });
+            case 'P': return new CharPattern('P', new String[]{
                 " **** ",
                 "*    *",
                 "*    *",
@@ -20,8 +42,8 @@ public class OOPSBanner {
                 "*     ",
                 "*     ",
                 "*     "
-            };
-            case 'S': return new String[]{
+            });
+            case 'S': return new CharPattern('S', new String[]{
                 " ***** ",
                 "*      ",
                 "*      ",
@@ -29,8 +51,8 @@ public class OOPSBanner {
                 "      *",
                 "      *",
                 " ***** "
-            };
-            default: return new String[]{
+            });
+            default: return new CharPattern(' ', new String[]{
                 "       ",
                 "       ",
                 "       ",
@@ -38,27 +60,27 @@ public class OOPSBanner {
                 "       ",
                 "       ",
                 "       "
-            };
+            });
         }
     }
 
-    // Function to build 2D array of patterns from a word
-    static String[][] buildPatterns(String word) {
-        String[][] patterns = new String[word.length()][];
+    // Function to build list of CharPattern from a word
+    static CharPattern[] buildPatterns(String word) {
+        CharPattern[] patterns = new CharPattern[word.length()];
         for (int i = 0; i < word.length(); i++) {
-            patterns[i] = getPattern(word.charAt(i));
+            patterns[i] = getCharPattern(word.charAt(i));
         }
         return patterns;
     }
 
     // Function to print the banner
     static void printBanner(String word) {
-        String[][] patterns = buildPatterns(word);
-        for (int row = 0; row < 7; row++) {
+        CharPattern[] patterns = buildPatterns(word);
+        for (int row = 0; row < patterns[0].getHeight(); row++) {
             StringBuilder line = new StringBuilder();
             for (int col = 0; col < patterns.length; col++) {
                 if (col > 0) line.append("  ");
-                line.append(patterns[col][row]);
+                line.append(patterns[col].getRow(row));
             }
             System.out.println(line);
         }
@@ -68,5 +90,3 @@ public class OOPSBanner {
         printBanner("OOPS");
     }
 }
-
-
